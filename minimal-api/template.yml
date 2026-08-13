@@ -1,0 +1,27 @@
+schema_version: 1
+name: dotnet-minimal-api
+description: .NET minimal API — C#, top-level program, xUnit with WebApplicationFactory
+platform: backend
+framework: aspnetcore
+
+variables:
+  - key: project_name
+    label: Project name
+    type: string
+    pattern: "^[A-Za-z][A-Za-z0-9 ]*$"
+
+identity:
+  - from: "TemplateApp"            # assembly, root namespace, csproj names, dirs
+    to: "{project_name.pascal}"
+  - from: "template-app"           # solution name, docker tag
+    to: "{project_name.kebab}"
+
+features:
+  - key: docker
+    label: Dockerfile (aspnet runtime)
+    default: true
+    files: ["Dockerfile", ".dockerignore"]
+
+verify:
+  image: mcr.microsoft.com/dotnet/sdk:9.0
+  run: dotnet test

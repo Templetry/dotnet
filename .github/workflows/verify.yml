@@ -1,0 +1,34 @@
+name: Verify forms
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  minimal-api:
+    name: minimal-api (default)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install templetry
+        run: |
+          curl -sL -o /usr/local/bin/templetry \
+            "https://github.com/Templetry/engine/releases/download/v1.4.0/templetry-linux-amd64"
+          chmod +x /usr/local/bin/templetry
+      - name: Render
+        run: |
+          templetry render --template ./minimal-api --out "$RUNNER_TEMP/out" \
+            --set "project_name=Verify App"
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0"
+      - name: Build and test rendered output
+        working-directory: ${{ runner.temp }}/out
+        run: |
+          dotnet build
+          dotnet test
