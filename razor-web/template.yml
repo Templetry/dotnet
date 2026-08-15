@@ -20,6 +20,16 @@ identity:
     to: "{project_name.kebab}"
 
 features:
+  - key: environments
+    label: development / staging / production profiles (ADR-0018)
+    default: true
+    files:
+      - "src/TemplateApp/AppOptions.cs"
+      - "src/TemplateApp/appsettings.Development.json"
+      - "src/TemplateApp/appsettings.Staging.json"
+      - "src/TemplateApp/appsettings.Production.json"
+      - "tests/TemplateApp.Tests/EnvironmentProfileTests.cs"
+
   - key: docker
     label: Dockerfile (aspnet runtime)
     default: true
@@ -43,6 +53,7 @@ presets:
   - key: minimal
     label: Pages only — no Docker, no probe, no sample form
     features:
+      environments: false
       docker: false
       healthz: false
       contact_form: false

@@ -1,8 +1,21 @@
 using TemplateApp;
+// tpl:if environments
+using Microsoft.Extensions.Options;
+// tpl:endif
 
 // Template App — ASP.NET Core Razor Pages.
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
+// tpl:if environments
+
+// Bound and validated when the process starts, so a broken profile fails
+// here rather than on the first request that happened to read it.
+builder.Services
+    .AddOptions<AppOptions>()
+    .Bind(builder.Configuration.GetSection(AppOptions.SectionName))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+// tpl:endif
 
 var app = builder.Build();
 
