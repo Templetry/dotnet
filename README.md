@@ -5,7 +5,7 @@
 | Form | What it is | Status |
 |---|---|---|
 | [`minimal-api/`](minimal-api/) | Minimal API — C# top-level program, xUnit with WebApplicationFactory | ✅ ready |
-| [`razor-web/`](razor-web/) | Razor Pages web app — shared layout, static files, server-side validation | 🚧 awaiting first green CI |
+| [`razor-web/`](razor-web/) | Razor Pages web app — shared layout, static files, server-side validation | ✅ ready |
 
 ## Usage
 
