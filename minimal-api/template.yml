@@ -1,8 +1,9 @@
 schema_version: 1
 name: dotnet-minimal-api
 description: .NET minimal API — C#, top-level program, xUnit with WebApplicationFactory
-platform: backend
-framework: aspnetcore
+kinds: [backend]
+languages: [csharp]
+frameworks: [aspnetcore]
 
 variables:
   - key: project_name

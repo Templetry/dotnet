@@ -1,8 +1,9 @@
 schema_version: 1
 name: dotnet-razor-web
 description: ASP.NET Core Razor Pages web app — layout, static files, server-side validation, xUnit with WebApplicationFactory
-platform: web
-framework: aspnetcore
+kinds: [frontend, backend]
+languages: [csharp]
+frameworks: [aspnetcore, razor-pages]
 
 variables:
   - key: project_name
