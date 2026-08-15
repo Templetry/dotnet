@@ -15,7 +15,13 @@ concurrency:
 
 jobs:
   minimal-api:
-    name: minimal-api (default)
+    name: minimal-api (${{ matrix.name }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: default, args: "" }
+          - { name: minimal, args: "--preset minimal" }
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +29,7 @@ jobs:
       - name: Render
         run: |
           templetry render --template ./minimal-api --out "$RUNNER_TEMP/out" \
-            --set "project_name=Verify App"
+            --set "project_name=Verify App" ${{ matrix.args }}
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "9.0"

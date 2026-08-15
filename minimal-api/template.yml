@@ -18,10 +18,25 @@ identity:
     to: "{project_name.kebab}"
 
 features:
+  - key: environments
+    label: development / staging / production profiles (ADR-0018)
+    default: true
+    files:
+      - "src/TemplateApp/AppOptions.cs"
+      - "src/TemplateApp/appsettings.Development.json"
+      - "src/TemplateApp/appsettings.Staging.json"
+      - "src/TemplateApp/appsettings.Production.json"
+      - "tests/TemplateApp.Tests/EnvironmentProfileTests.cs"
+
   - key: docker
     label: Dockerfile (aspnet runtime)
     default: true
     files: ["Dockerfile", ".dockerignore"]
+
+presets:
+  - key: minimal
+    label: Single configuration, no Docker
+    features: {environments: false, docker: false}
 
 verify:
   image: mcr.microsoft.com/dotnet/sdk:9.0
