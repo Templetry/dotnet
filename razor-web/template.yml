@@ -1,0 +1,51 @@
+schema_version: 1
+name: dotnet-razor-web
+description: ASP.NET Core Razor Pages web app — layout, static files, server-side validation, xUnit with WebApplicationFactory
+platform: web
+framework: aspnetcore
+
+variables:
+  - key: project_name
+    label: Project name
+    type: string
+    pattern: "^[A-Za-z][A-Za-z0-9 ]*$"
+
+identity:
+  - from: "TemplateApp"            # assembly, root namespace, csproj names, dirs
+    to: "{project_name.pascal}"
+  - from: "Template App"           # displayed title: brand, <title>, footer
+    to: "{project_name}"
+  - from: "template-app"           # solution name, docker tag
+    to: "{project_name.kebab}"
+
+features:
+  - key: docker
+    label: Dockerfile (aspnet runtime)
+    default: true
+    files: ["Dockerfile", ".dockerignore"]
+
+  - key: healthz
+    label: /healthz endpoint for probes
+    default: true
+    files: ["tests/TemplateApp.Tests/HealthTests.cs"]
+
+  - key: contact_form
+    label: Contact page (model binding, validation, antiforgery)
+    default: true
+    files:
+      - "src/TemplateApp/Pages/Contact.cshtml"
+      - "src/TemplateApp/Pages/Contact.cshtml.cs"
+      - "src/TemplateApp/ContactNav.cs"
+      - "tests/TemplateApp.Tests/ContactTests.cs"
+
+presets:
+  - key: minimal
+    label: Pages only — no Docker, no probe, no sample form
+    features:
+      docker: false
+      healthz: false
+      contact_form: false
+
+verify:
+  image: mcr.microsoft.com/dotnet/sdk:9.0
+  run: dotnet test

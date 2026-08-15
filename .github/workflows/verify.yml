@@ -36,3 +36,35 @@ jobs:
         run: |
           dotnet build
           dotnet test
+
+  razor-web:
+    name: razor-web (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Both ends of the feature axis: everything on, and nothing on.
+          - name: default
+            args: ""
+          - name: minimal
+            args: "--preset minimal"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install templetry
+        run: |
+          curl -fsSL -o /usr/local/bin/templetry \
+            "https://github.com/Templetry/engine/releases/download/v1.7.0/templetry-linux-amd64"
+          chmod +x /usr/local/bin/templetry
+      - name: Render
+        run: |
+          templetry render --template ./razor-web --out "$RUNNER_TEMP/out" \
+            --set "project_name=Verify App" ${{ matrix.args }}
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0"
+      - name: Build and test rendered output
+        working-directory: ${{ runner.temp }}/out
+        run: |
+          dotnet build
+          dotnet test

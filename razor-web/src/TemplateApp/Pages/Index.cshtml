@@ -1,0 +1,11 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h1>Template App</h1>
+
+<p class="lead">@Model.Message</p>
+
+<p class="muted">Rendered server-side at @Model.GeneratedAt.ToString("u").</p>

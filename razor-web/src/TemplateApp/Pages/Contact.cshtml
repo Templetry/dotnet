@@ -1,0 +1,36 @@
+@page
+@model ContactModel
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<h1>Contact</h1>
+
+@if (Model.Sent)
+{
+    <p class="notice" role="status">Thanks — your message was received.</p>
+}
+
+<form method="post" novalidate>
+    <div asp-validation-summary="ModelOnly" class="error"></div>
+
+    <div class="field">
+        <label asp-for="Form.Name"></label>
+        <input asp-for="Form.Name" autocomplete="name" />
+        <span asp-validation-for="Form.Name" class="error"></span>
+    </div>
+
+    <div class="field">
+        <label asp-for="Form.Email"></label>
+        <input asp-for="Form.Email" type="email" autocomplete="email" />
+        <span asp-validation-for="Form.Email" class="error"></span>
+    </div>
+
+    <div class="field">
+        <label asp-for="Form.Message"></label>
+        <textarea asp-for="Form.Message" rows="6"></textarea>
+        <span asp-validation-for="Form.Message" class="error"></span>
+    </div>
+
+    <button type="submit">Send</button>
+</form>
